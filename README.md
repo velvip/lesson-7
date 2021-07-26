@@ -4,8 +4,8 @@
 2.Assembling the image.       
 `docker build . -t nginx_levelup`.        
 3.Running the image.        
-`docker run -p 5555:8080 -d nginx_levelup`.         
-4. To check go to you browser in this ip: `127.0.0.1:5555` and see welcome page.        
+`docker run -p 55555:8080 -d nginx_levelup`.         
+4. To check go to you browser in this ip: `127.0.0.1:55555` and see welcome page.        
 
 
 # Download and run ready docker images
@@ -15,5 +15,5 @@
 2. Pull the image using the 'docker pull' command 
 `docker pull public.ecr.aws/m3i5h8e1/nginx_levelup:latest`
 3. After pull image on your PC run:
-`docker run -p 5555:8080 -d public.ecr.aws/m3i5h8e1/nginx_levelup`
-4. To check go to you browser in this ip: `127.0.0.1:5555` and see welcome page
+`docker run -p 55555:8080 -d public.ecr.aws/m3i5h8e1/nginx_levelup`
+4. To check go to you browser in this ip: `127.0.0.1:55555` and see welcome page
