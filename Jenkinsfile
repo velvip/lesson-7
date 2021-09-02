@@ -11,5 +11,5 @@ pipeline {
             steps{sh 'docker build . -t nginx_levelup'
         }
     }
-}
+} 
 }
