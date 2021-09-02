@@ -1,14 +1,19 @@
 pipeline {
-    agent any
+    agent { 
+        label 'azure'
+        }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
     stages{ 
-        stage("DockerBuild"){
+        stage("Docker Build"){
             agent any
             steps{sh 'docker build . -t nginx_levelup'
         }
     }
-        stage ("StartContainer"){
+        stage ("Start Container"){
             agent any
-            steps{sh 'docker build . -t nginx_levelup'
+            steps{sh 'docker run -p 8080:8080 -d nginx_levelup'
         }
     }
 } 
