@@ -21,7 +21,7 @@ pipeline {
                 sh 'docker run -p 8080:8080 -d node_levelup:latest'
             }
         }
-        stage ("Deploy on prod?") {
+        stage ("Apply?") {
             agent { 
                  label 'azure'
                 }
