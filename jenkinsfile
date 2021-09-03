@@ -9,7 +9,7 @@ pipeline {
             steps {
                 echo "The build number is ${env.BUILD_ID}"
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
-                sh 'docker build . node:${env.BUILD_ID}'
+                sh 'docker build . node'
         }
         }
     
@@ -19,7 +19,7 @@ pipeline {
             }
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
-                sh 'docker run -p 8080:8080 -d node:${env.BUILD_ID}'
+                sh 'docker run -p 8080:8080 -d node'
             }
         }
         stage ("Apply?") {
@@ -38,7 +38,7 @@ pipeline {
                 steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker docker rm $(docker ps -a -q)'
-                    sh 'docker run -p 80:8080 -d node:${env.BUILD_ID}'
+                    sh 'docker run -p 80:8080 -d node'
                 }
         }
     }
