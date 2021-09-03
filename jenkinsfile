@@ -2,35 +2,35 @@ pipeline {
     agent { 
         label 'azure'
         }
-    stages{ 
-        stage("Create docker image"){
+    stages { 
+        stage("Create docker image") {
             agent any
-            steps{
+            steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
                 sh 'docker build . -t node_levelup:latest'
         }
         }
     
-        stage ("Test Container"){
+        stage ("Test Container") {
             agent { 
                 label 'azure'
             }
-            steps{
+            steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
                 sh 'docker rm node_levelup:latest'
                 sh 'docker run -p 8080:8080 -d node_levelup:latest'
             }
         }
-        stage ("Deploy on prod?"){
+        stage ("Deploy on prod?") {
             agent { 
                     label 'azure'
                 }
                 steps{
-                    env.Deploy = input message: 'User input required', ok: 'Deploy!'
+                    env.Apply = input message: 'User input required', ok: 'Deploy!'
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker run -p 80:8080 -d node_levelup:latest'
                 }
-        echo "${env.Deploy}"
+        echo "${env.Apply}"
         }
     }
 } 
