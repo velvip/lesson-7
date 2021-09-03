@@ -8,7 +8,7 @@ pipeline {
             agent any
             steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
-                sh 'docker build . -t node_levelup:latest'
+                sh 'docker build . -t'
         }
         }
     
@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
-                sh 'docker run -p 8080:8080 -d node_levelup:latest'
+                sh 'docker run -p 8080:8080 -d'
             }
         }
         stage ("Apply?") {
@@ -36,8 +36,8 @@ pipeline {
             }
                 steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
-                    sh 'docker stop node_levelup:latest'
-                    sh 'docker run -p 80:8080 -d node_levelup:latest'
+                    sh 'docker docker rm $(docker ps -a -q)'
+                    sh 'docker run -p 80:8080 -d'
                 }
         }
     }
