@@ -7,14 +7,16 @@ pipeline {
         timestamps()
         }
     stages{ 
-        stage("Docker Build"){
+        stage("Create docker image"){
             agent any
-            steps{sh 'docker build . -t nginx_levelup'
+            steps{
+                sh 'docker build -t node_levelup:latest .'
         }
     }
         stage ("Start Container"){
             agent any
-            steps{sh 'docker run -p 8080:8080 -d nginx_levelup'
+            steps{
+                sh 'docker run -p 8080:8080 -d nginx_levelup'
         }
     }
 } 
