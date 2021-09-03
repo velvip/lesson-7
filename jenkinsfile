@@ -8,7 +8,7 @@ pipeline {
             agent any
             steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
-                sh 'docker build .'
+                sh 'docker build . node:${env.BUILD_ID}'
         }
         }
     
@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
-                sh 'docker run -p 8080:8080 -d'
+                sh 'docker run -p 8080:8080 -d node:${env.BUILD_ID}'
             }
         }
         stage ("Apply?") {
@@ -37,7 +37,7 @@ pipeline {
                 steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker docker rm $(docker ps -a -q)'
-                    sh 'docker run -p 80:8080 -d'
+                    sh 'docker run -p 80:8080 -d node:${env.BUILD_ID}'
                 }
         }
     }
