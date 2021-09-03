@@ -9,7 +9,7 @@ pipeline {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
                 sh 'docker build . -t node_levelup:latest'
         }
-    }
+    
         stage ("Test Container"){
             agent { 
                 label 'azure'
