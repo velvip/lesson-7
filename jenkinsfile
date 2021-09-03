@@ -9,7 +9,7 @@ pipeline {
     stages{ 
         stage("Docker Build"){
             agent any
-            steps{sh 'sudo docker build . nginx_levelup'
+            steps{sh 'sudo docker build . -t nginx_levelup'
         }
     }
         stage ("Start Container"){
