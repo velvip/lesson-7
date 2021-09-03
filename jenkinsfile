@@ -26,9 +26,9 @@ pipeline {
                  label 'azure'
                 }
                 steps{
-                    env.Deploy = input message: 'User input required', ok: 'Deploy!'
+                    env.Apply = input message: 'User input required', ok: 'Deploy!'
                 }
-        echo "${env.Deploy}"
+        echo "${env.Apply}"
         }
         stage ("Deploy") {
             agent { 
