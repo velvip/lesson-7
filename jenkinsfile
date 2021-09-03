@@ -23,14 +23,22 @@ pipeline {
         }
         stage ("Deploy on prod?") {
             agent { 
-                    label 'azure'
+                 label 'azure'
                 }
                 steps{
-                    env.Apply = input message: 'User input required', ok: 'Deploy!'
+                    env.Deploy = input message: 'User input required', ok: 'Deploy!'
+                }
+        echo "${env.Deploy}"
+        }
+        stage ("Deploy") {
+            agent { 
+                    label 'azure'
+            }
+                steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker run -p 80:8080 -d node_levelup:latest'
                 }
-        echo "${env.Apply}"
+            }
         }
     }
 } 
