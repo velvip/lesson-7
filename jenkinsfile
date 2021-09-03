@@ -1,3 +1,4 @@
+#!groovy
 pipeline {
     agent { 
         label 'azure'
@@ -17,7 +18,7 @@ pipeline {
             }
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
-                sh 'docker run -p 8080:8080 node_levelup:latest'
+                sh 'docker run -p 8080:8080 -d node_levelup:latest'
             }
         }
         stage ("Apply?") {
