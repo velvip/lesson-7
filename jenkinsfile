@@ -7,6 +7,7 @@ pipeline {
         stage("Create docker image") {
             agent any
             steps {
+                echo "The build number is ${env.BUILD_ID}"
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
                 sh 'docker build . node:${env.BUILD_ID}'
         }
