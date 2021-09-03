@@ -22,12 +22,11 @@ pipeline {
             }
         }
         stage ("Apply?") {
-            agent { 
-                 label 'azure'
-             }
             steps{
+                    script {
                     env.Apply = input message: 'User input required', ok: 'Deploy!'
-                    echo "${env.Apply}"
+                }
+                echo "${env.Apply}"
             }
         
         }
