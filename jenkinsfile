@@ -9,7 +9,8 @@ pipeline {
             steps {
                 echo "The build number is ${env.BUILD_ID}"
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
-                sh 'docker build . -t node'
+                sh 'docker build . -t node:test'
+                sh 'docker build . -t node:prod'
         }
         }
     
