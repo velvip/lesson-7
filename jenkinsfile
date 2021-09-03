@@ -9,12 +9,12 @@ pipeline {
     stages{ 
         stage("Docker Build"){
             agent any
-            steps{sh 'sudo docker build . -t nginx_levelup'
+            steps{sh 'docker build . -t nginx_levelup'
         }
     }
         stage ("Start Container"){
             agent any
-            steps{sh 'sudo docker run -p 8080:8080 -d nginx_levelup'
+            steps{sh 'docker run -p 8080:8080 -d nginx_levelup'
         }
     }
 } 
