@@ -27,7 +27,7 @@ pipeline {
                 }
                 steps{
                     env.Deploy = input message: 'User input required', ok: 'Deploy!'
-                                        echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
+                    echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker run -p 80:8080 -d node_levelup:latest'
                 }
         echo "${env.Deploy}"
