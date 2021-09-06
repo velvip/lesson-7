@@ -6,7 +6,8 @@ node {
 
   stage 'Test'
     docker_image.withRun('-p 8080:8080') {c ->
-    sh 'ls'
+    sh 'curl -i http://${hostIp(c)}:80/'
+    sh 'timeout 100'
     } 
 
   stage 'Push | Apply'
