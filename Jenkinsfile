@@ -1,28 +1,48 @@
-node {
-  def response 
-  stage 'Build image' 
-  git 'https://github.com/velvip/lesson-7.git' 
-  def docker_image = docker.build ("node-image:${env.BUILD_ID}")
-
-  stage 'Test'
-    docker_image.withRun('-p 8080:8080') {c ->
-    sh 'ls'
-    } 
-
-  stage 'Push | Apply'
-  try {
-      timeout(time:120,unit: 'SECONDS'){
-
-    response = input message: 'User input required', ok: 'Check TEST and Deploy to Prod!' 
-    return true
-
-      }
-  }
-  catch (err){
-      return false
-  } 
-  stage 'Deploy to prod'
-  steps{
-      sh "docker build . -t node-image:${env.BUILD_ID}"
-  }
+#!groovy
+pipeline {
+    agent { 
+        label 'azure'
+        }
+    stages { 
+        stage("Create docker image") {
+            agent any
+            steps {
+                echo "The build number is ${env.BUILD_ID}"
+                echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
+                sh "docker build . -t node:test"
+                sh 'docker build . -t node:prod'
+        }
+        }
+    
+        stage ("Test Container") {
+            agent { 
+                label 'azure'
+            }
+            steps {
+                echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
+                sh 'docker stop node:test'
+                sh 'docker run -p 8080:8080 -d node:test'
+            }
+        }
+        stage ("Apply?") {
+            steps{
+                    script {
+                    env.Apply = input message: 'User input required', ok: 'Deploy!'
+                }
+                echo "${env.Apply}"
+            }
+        
+        }
+        stage ("Deploy") {
+            agent { 
+                    label 'azure'
+            }
+                steps{
+                    echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
+                    sh 'docker stop $(docker ps -a -q)'
+                    sh 'docker rm $(docker ps -a -q)'
+                    sh 'docker run -p 80:8080 -d node:prod'
+                }
+        }
+    }
 }
