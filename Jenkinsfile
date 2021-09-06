@@ -25,12 +25,10 @@ node {
       return false
   } 
 
-stage 'Deploy prod'{
+stage 'Deploy prod'
     steps{
         echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
         sh 'docker stop $(docker ps -a -q)'
         sh 'docker rm $(docker ps -a -q)'
         sh 'docker run -p 80:8080 -d node:prod'
-        }    
-
-}
+        }
