@@ -25,9 +25,9 @@ node {
       return false
   } 
   stage 'Deploy to Prod!'
-  steps {
+  docker_image.withRun('-p 8080:8080') {c ->
   sh 'docker stop $(docker ps -a -q)'
   sh 'docker rm $(docker ps -a -q)'
-  sh 'docker run -p 80:8080 -d node:prod'
+  sh 'docker run -p 80:8080 -d node-image'
 }
 }
