@@ -30,15 +30,15 @@ pipeline {
                     script {
                     env.Apply = input message: 'User input required', ok: 'Deploy!'
                 }
-                echo "${env.Apply}"
+            echo "${env.Apply}"
             }
         
         }
         stage ("Deploy") {
             agent { 
-                    label 'azure'
-            }
-                steps{
+                label 'azure'
+                }
+            steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker stop $(docker ps -a -q)'
                     sh 'docker rm $(docker ps -a -q)'
