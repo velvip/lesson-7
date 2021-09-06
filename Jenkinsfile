@@ -5,13 +5,15 @@ pipeline {
         }
     stages { 
         stage("Create docker image") {
-            agent any
+            agent { 
+                label 'azure'
+                }
             steps {
                 echo "The build number is ${env.BUILD_ID}"
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
                 sh "docker build . -t node:test"
                 sh 'docker build . -t node:prod'
-        }
+            }
         }
     
         stage ("Test Container") {
