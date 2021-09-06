@@ -4,8 +4,8 @@ node {
   git 'https://github.com/velvip/lesson-7.git' 
   def docker_image = docker.build 'node-image'
 
-  stage 'Test | workdir '
-    docker_image.withRun {c ->
+  stage 'Test'
+    docker_image.withRun ('-p 8080:8080') {c ->
     sh 'ls'
     }
 
@@ -22,8 +22,9 @@ node {
       return false
   } 
 
-  stage 'Push | Push to regestry'
-
-    echo 'push '      
+stage 'Deploy prod'
+    docker_image.withRun ('-p 80:8080') {c ->
+    sh 'ls'
+    }      
 
 }
