@@ -1,11 +1,11 @@
 node {
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+  }
   def response 
   stage 'Build image' 
   git 'https://github.com/velvip/lesson-7.git' 
   def docker_image = docker.build ("node-image:${env.BUILD_ID}")
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
-  }
 
   stage 'Test'
     docker_image.withRun('-p 8080:8080') {c ->
@@ -24,10 +24,8 @@ node {
   catch (err){
       return false
   } 
-  stage 'Deploy to Prod!'
-  docker_image.withRun('-p 8080:8080') {c ->
-  sh 'docker stop $(docker ps -a -q)'
-  sh 'docker rm $(docker ps -a -q)'
-  sh 'docker run -p 80:8080 -d node-image'
-}
+  stage 'Deploy to prod'
+  steps{
+      sh "docker build . -t node-image:${env.BUILD_ID}"
+  }
 }
