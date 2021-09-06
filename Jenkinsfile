@@ -25,5 +25,9 @@ node {
       return false
   } 
   stage 'Deploy to Prod!'
-    docker_image('-p 80:8080')
+  steps {
+  sh 'docker stop $(docker ps -a -q)'
+  sh 'docker rm $(docker ps -a -q)'
+  sh 'docker run -p 80:8080 -d node:prod'
+}
 }
