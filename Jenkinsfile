@@ -8,7 +8,7 @@ node {
   }
 
   stage 'Test'
-    docker_image.withRun('-p 8080:8080 -d') {c ->
+    docker_image.withRun('-p 8080:8080') {c ->
     sh 'sleep 2m'
     } 
 
@@ -24,12 +24,6 @@ node {
   catch (err){
       return false
   } 
-        stage("Create docker image") {
-            agent any
-            steps {
-                    echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
-                    sh 'docker stop $(docker ps -a -q)'
-                    sh 'docker rm $(docker ps -a -q)'
-                    sh "docker run -p 80:8080 -d node:${env.BUILD_ID}"
-        }
-        }
+  stage 'Deploy to Prod!'
+    docker_image('-p 80:8080')
+}
