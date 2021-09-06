@@ -5,8 +5,8 @@ node {
   def docker_image = docker.build ("node-image:${env.BUILD_ID}")
 
   stage 'Test'
-    docker_image.withRun('-p 8080:8080') {c ->
-    sh 'timeout 100'
+    docker_image.withRun('-p 8080:8080 -d') {c ->
+    sh 'ls'
     } 
 
   stage 'Push | Apply'
@@ -23,8 +23,8 @@ node {
   } 
 
 stage 'Deploy prod'
-    withRun('-p 80:8080') {c ->
-    sh 'curl -i http://${hostIp(c)}:80/'
+    withRun('-p 80:8080 -d') {c ->
+    sh ''
     }      
 
 }
