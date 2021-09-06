@@ -6,7 +6,7 @@ node {
 
   stage 'Test'
     docker_image.withRun('-p 8080:8080') {c ->
-    sh 'sleep 2m'
+    sh 'ls'
     } 
 
   stage 'Push | Apply'
