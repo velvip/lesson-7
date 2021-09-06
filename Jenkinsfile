@@ -7,13 +7,7 @@ node {
   stage 'Test'
     docker_image.withRun('-p 8080:8080') {c ->
     sh 'ls'
-    }
- 
-    stage 'Test'
-        docker_image.withRun('-p 8080:8080') {c ->
-        sh 'curl -i http://${hostIp(c)}:8080/'
-    }   
-
+    } 
 
   stage 'Push | Apply'
   try {
