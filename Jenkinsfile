@@ -1,7 +1,4 @@
 node {
-    agent { 
-        label 'azure'
-    }
   def response 
   stage 'Build image' 
   git 'https://github.com/velvip/lesson-7.git' 
