@@ -3,15 +3,18 @@ node {
   stage 'Build image' 
   git 'https://github.com/velvip/lesson-7.git' 
   def docker_image = docker.build ("node-image:${env.BUILD_ID}")
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+  }
 
   stage 'Test'
     docker_image.withRun('-p 8080:8080 -d') {c ->
-    sh 'ls'
+    sh 'sleep 2m'
     } 
 
   stage 'Push | Apply'
   try {
-      timeout(time:100,unit: 'SECONDS'){
+      timeout(time:120,unit: 'SECONDS'){
 
     response = input message: 'User input required', ok: 'Check TEST and Deploy to Prod!' 
     return true
@@ -22,9 +25,12 @@ node {
       return false
   } 
 
-stage 'Deploy prod'
-    withRun('-p 80:8080 -d') {c ->
-    sh ''
-    }      
+stage 'Deploy prod'{
+    steps{
+        echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
+        sh 'docker stop $(docker ps -a -q)'
+        sh 'docker rm $(docker ps -a -q)'
+        sh 'docker run -p 80:8080 -d node:prod'
+        }    
 
 }
