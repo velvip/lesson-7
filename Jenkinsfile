@@ -2,18 +2,24 @@ node {
   def response 
   stage 'Build image' 
   git 'https://github.com/velvip/lesson-7.git' 
-  def docker_image = docker.build 'node-image'
+  def docker_image = docker.build ("node-image:${env.BUILD_ID}")
 
   stage 'Test'
-    docker_image.withRun ('-p 8080:8080') {c ->
+    docker_image.withRun('-p 8080:8080') {c ->
     sh 'ls'
     }
+ 
+    stage 'Test'
+        docker_image.withRun('-p 8080:8080') {c ->
+        sh 'curl -i http://${hostIp(c)}:8080/'
+    }   
+
 
   stage 'Push | Apply'
   try {
       timeout(time:100,unit: 'SECONDS'){
 
-    response = input message: 'User input required', ok: 'Deploy!' 
+    response = input message: 'User input required', ok: 'Check TEST and Deploy to Prod!' 
     return true
 
       }
@@ -23,8 +29,8 @@ node {
   } 
 
 stage 'Deploy prod'
-    docker_image.withRun ('-p 80:8080') {c ->
-    sh 'ls'
+    withRun('-p 80:8080') {c ->
+    sh 'curl -i http://${hostIp(c)}:80/'
     }      
 
 }
