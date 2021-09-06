@@ -1,7 +1,4 @@
 node {
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
-  }
   def response 
   stage 'Build image' 
   git 'https://github.com/velvip/lesson-7.git' 
