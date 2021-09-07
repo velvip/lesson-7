@@ -1,8 +1,6 @@
 #!groovy
 pipeline {
-    agent { 
-        label any
-        }
+    agent any
     stages { 
         stage("Create docker image") {
             agent { 
@@ -16,9 +14,7 @@ pipeline {
         }
     
         stage ("Test Container") {
-            agent { 
-                label any
-            }
+            agent any
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
                 sh 'docker stop node:test'
@@ -35,9 +31,7 @@ pipeline {
         
         }
         stage ("Deploy") {
-            agent { 
-                label any
-                }
+            agent any
             steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
                     sh 'docker stop $(docker ps -a -q)'
