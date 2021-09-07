@@ -6,7 +6,7 @@ pipeline {
             agent any
             steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
-                sh 'docker build . -t node:test'
+                sh 'ls'
             }
         }
     
