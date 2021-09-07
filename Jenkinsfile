@@ -6,7 +6,7 @@ pipeline {
             agent any
             steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
-                sh 'ls'
+                sh 'docker build . -t node:test'
             }
         }
     
@@ -14,7 +14,6 @@ pipeline {
             agent any
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
-                sh 'docker stop node:test'
                 sh 'docker run -p 8080:8080 -d node:test'
             }
         }
