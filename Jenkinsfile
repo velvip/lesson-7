@@ -1,12 +1,12 @@
 #!groovy
 pipeline {
     agent { 
-        label 'azure'
+        label any
         }
     stages { 
         stage("Create docker image") {
             agent { 
-                label 'azure'
+                label any
                 }
             steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
@@ -17,7 +17,7 @@ pipeline {
     
         stage ("Test Container") {
             agent { 
-                label 'azure'
+                label any
             }
             steps {
                 echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
@@ -36,7 +36,7 @@ pipeline {
         }
         stage ("Deploy") {
             agent { 
-                label 'azure'
+                label any
                 }
             steps{
                     echo '++++++++++++++++++ Deploy on prod ++++++++++++++++++'
