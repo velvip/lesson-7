@@ -10,28 +10,21 @@ pipeline {
                 sh 'docker build . -t node:prod'
             }
         }
-    
         stage ("Test Container") {
             agent any
             steps {
-                echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
-                try {
-                    sh 'docker stop node:test' 
-                        return true
-                        }
-                sh 'docker run -p 8080:8080 -d node:test'
+                    echo '++++++++++++++++++ Docker Test in port 8080 ++++++++++++++++++'
+                    sh 'docker run -p 8080:8080 -d node:test'
             }
         }
         stage ("Apply?") {
-            try {
-                timeout(time:120,unit: 'SECONDS'){
-                    response = input message: 'User input required', ok: 'Check TEST and Deploy to Prod!' 
-                    return true
-                    }
-                    }
-                    catch (err){
-                        return false
-                        }
+            steps{
+                    script {
+                    env.Apply = input message: 'User input required', ok: 'Deploy!'
+                }
+            echo "${env.Apply}"
+            }
+        
         }
         stage ("Deploy") {
             agent any
