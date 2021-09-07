@@ -7,7 +7,6 @@ pipeline {
             steps {
                 echo '++++++++++++++++++ Docker Build ++++++++++++++++++'
                 sh 'docker build . -t node:test'
-                sh 'docker build . -t node:prod'
             }
         }
     
